@@ -1,10 +1,24 @@
 import { AggregateRoot } from './aggregate-root';
 import { DomainEvent } from './domain-event';
+import { DomainEventSubscriber } from './domain-event-subscriber';
 
 export class EventPublisher {
+  private _subscribers: Map<string, DomainEventSubscriber> = new Map();
+
+  public subscribe(
+    domainName: string,
+    subscriber: DomainEventSubscriber
+  ): void {
+    this._subscribers.set(domainName, subscriber);
+  }
+
   publish(event: DomainEvent) {
-    console.log(`Event published: ${event.getAggregateId()}`);
-    console.log(event.constructor.name);
+    const domainName = event.constructor.name;
+    const subscriber = this._subscribers.get(domainName);
+
+    if (subscriber) {
+      subscriber.handle(event);
+    }
   }
 
   commit(aggregateRoot: AggregateRoot) {
