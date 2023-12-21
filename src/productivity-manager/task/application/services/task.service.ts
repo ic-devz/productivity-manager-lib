@@ -1,11 +1,15 @@
+import { CommandBus } from '../../../../core/command/command-bus';
 import { EventPublisher } from '../../../../core/event/event-publisher';
 import { CreateTaskDto } from '../../domain/create-task.dto';
+import { Task } from '../../domain/task';
 import { TaskId } from '../../domain/task-id';
 import { TaskRepository } from '../../domain/task.repository';
+import { CreateNewTaskCommand } from './commands/create-new-task.command';
 
 export class TaskService {
   constructor(
     private readonly taskRepository: TaskRepository,
+    private readonly commandBus: CommandBus,
     private readonly eventPublisher: EventPublisher
   ) {}
 
@@ -13,9 +17,8 @@ export class TaskService {
     return this.taskRepository.findById(taskId);
   }
 
-  async create(task: CreateTaskDto) {
-    let savedTask = await this.taskRepository.save(task);
-    this.eventPublisher.commit(savedTask);
+  async create(task: CreateTaskDto): Promise<Task> {
+    return this.commandBus.dispatch(new CreateNewTaskCommand(task));
   }
 
   async delete(taskId: TaskId) {

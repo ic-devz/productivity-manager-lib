@@ -131,7 +131,7 @@ export class Task extends AggregateRoot {
     this._deletedAt = new Date();
     this._updatedAt = new Date();
 
-    this.apply(new TaskDeletedEvent(this.id));
+    this.apply(new TaskDeletedEvent(this.id.value));
   }
 
   changeResponsiblePerson(responsiblePerson: Person | null): void {

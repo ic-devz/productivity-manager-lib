@@ -8,7 +8,6 @@ export interface CreateTaskDto {
   taskTypeId: string;
   description: string;
   priority: Priority;
-  status: string;
   responsibleId?: PersonId | null;
   informerId?: PersonId | null;
 }
