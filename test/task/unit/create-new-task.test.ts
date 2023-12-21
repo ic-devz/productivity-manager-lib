@@ -18,11 +18,7 @@ describe('create new task', () => {
       new CreateNewTaskHandler(taskRepository, eventPublisher)
     );
 
-    let taskService = new TaskService(
-      taskRepository,
-      commandBus,
-      eventPublisher
-    );
+    let taskService = new TaskService(taskRepository, commandBus);
 
     let task = await taskService.create({
       summary: 'title',

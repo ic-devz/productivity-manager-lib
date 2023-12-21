@@ -12,16 +12,11 @@ describe('Delete Task', () => {
     let commandBus = new CommandBus();
 
     commandBus.register(
-      'CreateNewTaskCommand',
+      'DeleteTaskCommand',
       new DeleteTaskHandler(taskRepository, eventPublisher)
     );
 
-    let taskService = new TaskService(
-      taskRepository,
-      commandBus,
-      eventPublisher
-    );
-
+    let taskService = new TaskService(taskRepository, commandBus);
     let task = await taskService.delete(TaskId.fromPrimitive('1'));
 
     expect(task.id.value).toBe('1');

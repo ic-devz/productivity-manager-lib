@@ -1,16 +1,15 @@
 import { CommandBus } from '../../../../core/command/command-bus';
-import { EventPublisher } from '../../../../core/event/event-publisher';
 import { CreateTaskDto } from '../../domain/create-task.dto';
 import { Task } from '../../domain/task';
 import { TaskId } from '../../domain/task-id';
 import { TaskRepository } from '../../domain/task.repository';
 import { CreateNewTaskCommand } from './commands/create-new-task/create-new-task.command';
+import { DeleteTaskCommand } from './commands/delete-task/delete-task.command';
 
 export class TaskService {
   constructor(
     private readonly taskRepository: TaskRepository,
-    private readonly commandBus: CommandBus,
-    private readonly eventPublisher: EventPublisher
+    private readonly commandBus: CommandBus
   ) {}
 
   async findById(taskId: TaskId) {
@@ -22,15 +21,6 @@ export class TaskService {
   }
 
   async delete(taskId: TaskId): Promise<Task> {
-    let task = await this.taskRepository.findById(taskId);
-
-    if (!task) {
-      throw new Error('Task not found');
-    }
-
-    task.markAsDeleted();
-    await this.eventPublisher.commit(task);
-
-    return task;
+    return this.commandBus.dispatch(new DeleteTaskCommand(taskId));
   }
 }
