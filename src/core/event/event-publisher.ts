@@ -4,6 +4,7 @@ import { DomainEvent } from './domain-event';
 export class EventPublisher {
   publish(event: DomainEvent) {
     console.log(`Event published: ${event.getAggregateId()}`);
+    console.log(event.constructor.name);
   }
 
   commit(aggregateRoot: AggregateRoot) {

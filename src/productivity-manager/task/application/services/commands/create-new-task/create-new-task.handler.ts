@@ -1,6 +1,6 @@
-import { CommandHandler } from '../../../../../core/command/command-handler';
-import { EventPublisher } from '../../../../../core/event/event-publisher';
-import { TaskRepository } from '../../../domain/task.repository';
+import { CommandHandler } from '../../../../../../core/command/command-handler';
+import { EventPublisher } from '../../../../../../core/event/event-publisher';
+import { TaskRepository } from '../../../../domain/task.repository';
 import { CreateNewTaskCommand } from './create-new-task.command';
 
 export class CreateNewTaskHandler

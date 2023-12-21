@@ -72,6 +72,10 @@ export class Task extends AggregateRoot {
     return this._updatedAt;
   }
 
+  get isDeleted(): boolean {
+    return !!this._deletedAt;
+  }
+
   static fromPrimitives(
     id: TaskId,
     projectId: ProjectId,

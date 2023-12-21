@@ -4,7 +4,7 @@ import { CreateTaskDto } from '../../domain/create-task.dto';
 import { Task } from '../../domain/task';
 import { TaskId } from '../../domain/task-id';
 import { TaskRepository } from '../../domain/task.repository';
-import { CreateNewTaskCommand } from './commands/create-new-task.command';
+import { CreateNewTaskCommand } from './commands/create-new-task/create-new-task.command';
 
 export class TaskService {
   constructor(
@@ -21,7 +21,7 @@ export class TaskService {
     return this.commandBus.dispatch(new CreateNewTaskCommand(task));
   }
 
-  async delete(taskId: TaskId) {
+  async delete(taskId: TaskId): Promise<Task> {
     let task = await this.taskRepository.findById(taskId);
 
     if (!task) {
@@ -29,6 +29,8 @@ export class TaskService {
     }
 
     task.markAsDeleted();
-    this.eventPublisher.commit(task);
+    await this.eventPublisher.commit(task);
+
+    return task;
   }
 }

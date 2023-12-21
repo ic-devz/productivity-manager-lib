@@ -4,6 +4,8 @@ import { CommandHandler } from './command-handler';
 export class CommandBus {
   private _handlers: Map<string, CommandHandler<Command>> = new Map();
 
+  // TODO: implement command dispatcher
+
   register(commandName: string, handler: CommandHandler<Command>) {
     this._handlers.set(commandName, handler);
   }

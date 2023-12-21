@@ -1,5 +1,5 @@
-import { Command } from '../../../../../core/command/command';
-import { CreateTaskDto } from '../../../domain/create-task.dto';
+import { Command } from '../../../../../../core/command/command';
+import { CreateTaskDto } from '../../../../domain/create-task.dto';
 
 export class CreateNewTaskCommand implements Command {
   aggregateId: string;

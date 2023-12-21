@@ -5,7 +5,7 @@ import { InMemoryTaskRepository } from './double/in-memory-task.repository';
 import { TaskService } from '../../../src/productivity-manager/task/application/services/task.service';
 import { EventPublisher } from '../../../src/core/event/event-publisher';
 import { CommandBus } from '../../../src/core/command/command-bus';
-import { CreateNewTaskHandler } from '../../../src/productivity-manager/task/application/services/commands/create-new-task.handler';
+import { CreateNewTaskHandler } from '../../../src/productivity-manager/task/application/services/commands/create-new-task/create-new-task.handler';
 import { TaskStatus } from '../../../src/productivity-manager/task/domain/task-status';
 
 describe('create new task', () => {
