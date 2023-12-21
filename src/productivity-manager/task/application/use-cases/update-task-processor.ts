@@ -1,13 +1,9 @@
-import { MailProvider } from '../../../../core/mail/mail.provider';
 import { CreateTaskDto } from '../../domain/create-task.dto';
 import { TaskId } from '../../domain/task-id';
 import { TaskRepository } from '../../domain/task.repository';
 
 export class UpdateTaskProcessor {
-  constructor(
-    private readonly taskRepository: TaskRepository,
-    private readonly mailProvider: MailProvider
-  ) {}
+  constructor(private readonly taskRepository: TaskRepository) {}
 
   async execute(taskId: TaskId, updateTask: CreateTaskDto) {
     let task = await this.taskRepository.findById(taskId);

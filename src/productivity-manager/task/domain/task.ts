@@ -1,10 +1,12 @@
+import { AggregateRoot } from '../../../core/event/aggregate-root';
 import { Person } from '../../person/domain/person';
 import { ProjectId } from '../../project/domain/project-id';
+import { TaskDeletedEvent } from './events/task-deleted.event';
 import { Priority } from './priority';
 import { TaskId } from './task-id';
 import { TaskStatus } from './task-status';
 
-export class Task {
+export class Task extends AggregateRoot {
   protected constructor(
     private _id: TaskId,
     private _projectId: ProjectId,
@@ -18,7 +20,9 @@ export class Task {
     private _createdAt: Date | null,
     private _deletedAt: Date | null,
     private _updatedAt: Date | null
-  ) {}
+  ) {
+    super();
+  }
 
   get id(): TaskId {
     return this._id;
@@ -75,9 +79,9 @@ export class Task {
     TaskTypeId: string,
     description: string,
     priority: Priority,
-    status: string,
-    responsiblePersonId: PersonId | null,
-    informerPersonId: PersonId | null,
+    status: TaskStatus,
+    responsiblePersonId: Person | null,
+    informerPersonId: Person | null,
     createdAt: Date | null,
     deletedAt: Date | null,
     updatedAt: Date | null
@@ -104,9 +108,8 @@ export class Task {
     TaskTypeId: string,
     description: string,
     priority: Priority,
-    status: string,
-    responsiblePersonId: PersonId | null,
-    informerPersonId: PersonId | null
+    responsiblePersonId: Person | null,
+    informerPersonId: Person | null
   ): Task {
     return new Task(
       TaskId.next(),
@@ -115,7 +118,7 @@ export class Task {
       TaskTypeId,
       description,
       priority,
-      status,
+      TaskStatus.BACKLOG,
       responsiblePersonId,
       informerPersonId,
       new Date(),
@@ -127,6 +130,8 @@ export class Task {
   markAsDeleted(): void {
     this._deletedAt = new Date();
     this._updatedAt = new Date();
+
+    this.apply(new TaskDeletedEvent(this.id));
   }
 
   changeResponsiblePerson(responsiblePerson: Person | null): void {
