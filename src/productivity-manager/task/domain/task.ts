@@ -1,4 +1,3 @@
-import { assign } from 'lodash';
 import { AggregateRoot } from '../../../core/event/aggregate-root';
 import { Person } from '../../person/domain/person';
 import { ProjectId } from '../../project/domain/project-id';
