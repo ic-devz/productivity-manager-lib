@@ -1,3 +1,4 @@
+import { assign } from 'lodash';
 import { AggregateRoot } from '../../../core/event/aggregate-root';
 import { Person } from '../../person/domain/person';
 import { ProjectId } from '../../project/domain/project-id';
@@ -178,12 +179,28 @@ export class Task extends AggregateRoot {
     this.apply(new TaskDeletedEvent(this, deletedBy));
   }
 
-  changeResponsiblePerson(responsiblePerson: Person | null): void {
-    this._responsiblePerson = responsiblePerson;
+  changePriority(priority: Priority): void {
+    this._priority = priority;
+  }
+
+  changeSummary(summary: string): void {
+    this._summary = summary;
+  }
+
+  changeDescription(description: string): void {
+    this._description = description;
+  }
+
+  changeTaskTypeId(taskTypeId: string): void {
+    this._taskTypeId = taskTypeId;
   }
 
   changeInformerPerson(informerPerson: Person | null): void {
     this._informerPerson = informerPerson;
+  }
+
+  assignTo(responsiblePerson: Person | null): void {
+    this._responsiblePerson = responsiblePerson;
   }
 
   changeStatus(status: TaskStatus): void {
