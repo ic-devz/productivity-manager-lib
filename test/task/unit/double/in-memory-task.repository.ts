@@ -4,6 +4,7 @@ import { Task } from '../../../../src/productivity-manager/task/domain/task';
 import { TaskRepository } from '../../../../src/productivity-manager/task/domain/task.repository';
 import { TaskId } from '../../../../src/productivity-manager/task/domain/task-id';
 import { ProjectId } from '../../../../src/productivity-manager/project/domain/project-id';
+import { TaskStatus } from '../../../../src/productivity-manager/task/domain/task-status';
 
 export class InMemoryTaskRepository implements TaskRepository {
   delete(taskId: TaskId): Promise<TaskId> {
@@ -19,9 +20,9 @@ export class InMemoryTaskRepository implements TaskRepository {
         task.taskTypeId,
         task.description,
         task.priority,
-        task.status,
-        task.responsibleId || null,
-        task.informerId || null,
+        TaskStatus.BACKLOG,
+        task.responsible || null,
+        task.informer || null,
         new Date(),
         new Date(),
         new Date()
@@ -38,7 +39,7 @@ export class InMemoryTaskRepository implements TaskRepository {
         '1',
         'description',
         Priority.High,
-        'pending',
+        TaskStatus.BACKLOG,
         null,
         null,
         new Date(),
@@ -56,9 +57,8 @@ export class InMemoryTaskRepository implements TaskRepository {
         task.taskTypeId,
         task.description,
         task.priority,
-        task.status,
-        task.responsibleId || null,
-        task.informerId || null
+        task.responsible || null,
+        task.informer || null
       )
     );
   }

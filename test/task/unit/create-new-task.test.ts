@@ -1,4 +1,3 @@
-import { PersonId } from '../../../src/productivity-manager/person/domain/person-id';
 import { ProjectId } from '../../../src/productivity-manager/project/domain/project-id';
 import { Priority } from '../../../src/productivity-manager/task/domain/priority';
 import { InMemoryTaskRepository } from './double/in-memory-task.repository';
@@ -26,8 +25,8 @@ describe('create new task', () => {
       priority: Priority.High,
       projectId: ProjectId.next(),
       taskTypeId: '1',
-      informerId: PersonId.next(),
-      responsibleId: PersonId.next(),
+      informer: null,
+      responsible: null,
     });
 
     expect(task).not.toBeNull();

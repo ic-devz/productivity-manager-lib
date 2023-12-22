@@ -1,3 +1,5 @@
+import { Mail } from './mail';
+
 export interface MailProvider {
-  send(to: string, subject: string, body: string): Promise<void>;
+  send(mail: Mail): Promise<void>;
 }

@@ -1,15 +1,15 @@
 import { DomainEvent } from '../../../../core/event/domain-event';
+import { Person } from '../../../person/domain/person';
+import { Task } from '../task';
 
 export class TaskDeletedEvent implements DomainEvent {
   dateTimeOccurred: Date;
-  taskId: string;
 
-  constructor(taskId: string) {
+  constructor(public readonly task: Task, public readonly deletedBy: Person) {
     this.dateTimeOccurred = new Date();
-    this.taskId = taskId;
   }
 
   getAggregateId(): string {
-    return this.taskId;
+    return this.task.id.value;
   }
 }

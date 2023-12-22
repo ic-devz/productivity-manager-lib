@@ -17,6 +17,7 @@ export class Task extends AggregateRoot {
     private _status: TaskStatus,
     private _responsiblePerson: Person | null,
     private _informerPerson: Person | null,
+    private _deletedBy: Person | null,
     private _createdAt: Date | null,
     private _deletedAt: Date | null,
     private _updatedAt: Date | null
@@ -100,10 +101,28 @@ export class Task extends AggregateRoot {
       status,
       responsiblePersonId,
       informerPersonId,
+      null,
       createdAt,
       deletedAt,
       updatedAt
     );
+  }
+
+  get watchers(): Person[] {
+    let _watchers: Person[] = [];
+    if (this.responsiblePerson) {
+      _watchers.push(this.responsiblePerson);
+    }
+
+    if (this.informerPerson) {
+      _watchers.push(this.informerPerson);
+    }
+
+    return _watchers;
+  }
+
+  get deletedBy(): Person | null {
+    return this._deletedBy;
   }
 
   static create(
@@ -125,17 +144,38 @@ export class Task extends AggregateRoot {
       TaskStatus.BACKLOG,
       responsiblePersonId,
       informerPersonId,
+      null,
       new Date(),
       null,
       new Date()
     );
   }
 
-  markAsDeleted(): void {
+  toPrimitives(): any {
+    return {
+      id: this.id.value,
+      projectId: this.projectId.value,
+      summary: this.summary,
+      taskTypeId: this.taskTypeId,
+      description: this.description,
+      priority: this.priority,
+      status: this.status,
+      responsiblePersonId: this.responsiblePerson
+        ? this.responsiblePerson.id
+        : null,
+      informerPersonId: this.informerPerson ? this.informerPerson.id : null,
+      createdAt: this.createdAt,
+      deletedAt: this.deletedAt,
+      updatedAt: this.updatedAt,
+    };
+  }
+
+  markAsDeleted(deletedBy: Person): void {
     this._deletedAt = new Date();
     this._updatedAt = new Date();
+    this._deletedBy = deletedBy;
 
-    this.apply(new TaskDeletedEvent(this.id.value));
+    this.apply(new TaskDeletedEvent(this, deletedBy));
   }
 
   changeResponsiblePerson(responsiblePerson: Person | null): void {

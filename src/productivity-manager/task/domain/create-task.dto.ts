@@ -1,4 +1,4 @@
-import { PersonId } from '../../person/domain/person-id';
+import { Person } from '../../person/domain/person';
 import { ProjectId } from '../../project/domain/project-id';
 import { Priority } from './priority';
 
@@ -8,6 +8,6 @@ export interface CreateTaskDto {
   taskTypeId: string;
   description: string;
   priority: Priority;
-  responsibleId?: PersonId | null;
-  informerId?: PersonId | null;
+  responsible: Person | null;
+  informer: Person | null;
 }

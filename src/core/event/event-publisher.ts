@@ -3,11 +3,14 @@ import { DomainEvent } from './domain-event';
 import { DomainEventSubscriber } from './domain-event-subscriber';
 
 export class EventPublisher {
-  private _subscribers: Map<string, DomainEventSubscriber> = new Map();
+  private _subscribers: Map<
+    string,
+    DomainEventSubscriber<DomainEvent>
+  > = new Map();
 
   public subscribe(
     domainName: string,
-    subscriber: DomainEventSubscriber
+    subscriber: DomainEventSubscriber<DomainEvent>
   ): void {
     this._subscribers.set(domainName, subscriber);
   }
