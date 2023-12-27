@@ -30,7 +30,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "icdev-productivity-core",
+  "name": "@icdevz/task-manager",
   "author": "ichavezrg",
   "module": "dist/icdev-productivity-core.esm.js",
   "size-limit": [
@@ -53,6 +53,7 @@
     "typescript": "^3.9.10"
   },
   "dependencies": {
+    "@icdevz/core": "^0.1.2",
     "@types/lodash": "^4.14.202",
     "lodash": "^4.17.21",
     "uuid": "^9.0.1"
